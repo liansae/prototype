@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using System.Runtime.CompilerServices;
 
 public class ThrowingPlushies : MonoBehaviour
 {
@@ -44,7 +45,14 @@ public class ThrowingPlushies : MonoBehaviour
         readyToThrow = false;
         GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
-        Vector3 forceToAdd = cam.transform.forward * throwFoece + transform.up * throwUpwardForce;
+        
+        Vector3 forceDirection = cam.transform.forward;
+        RaycastHit hit;
+        if (Physics.Raycast(cam.position, cam.forward, out hit, 500f))
+        {
+            forceDirection = (hit.point - attackPoint.position).normalized;
+        }
+        Vector3 forceToAdd = forceDirection * throwFoece + transform.up * throwUpwardForce;
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
         totalThrows--;
         Invoke(nameof(ResetThrow), throwCooldown);
