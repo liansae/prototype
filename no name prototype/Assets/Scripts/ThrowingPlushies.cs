@@ -5,12 +5,14 @@ using TMPro;
 using System;
 using System.Runtime.CompilerServices;
 
+
+
 public class ThrowingPlushies : MonoBehaviour
 {
     [Header("References")]
     public Transform cam;
     public Transform attackPoint;
-    public GameObject objectToThrow;
+    public GameObject[] objectsToThrow; // Use an array to hold multiple objects.
 
     [Header("Settings")]
     public int totalThrows;
@@ -18,12 +20,10 @@ public class ThrowingPlushies : MonoBehaviour
 
     [Header("Throwing")]
     public KeyCode throwKey = KeyCode.Mouse0;
-    public float throwFoece;
+    public float throwForce;
     public float throwUpwardForce;
 
-    bool readyToThrow;
-
-
+    private bool readyToThrow;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,24 +35,27 @@ public class ThrowingPlushies : MonoBehaviour
     {
         if (Input.GetKeyDown(throwKey) && readyToThrow && totalThrows > 0)
         {
-            Throw();
-
+            ThrowRandomObject(); // Call a new function to throw a random object.
         }
     }
 
-    private void Throw()
+    private void ThrowRandomObject()
     {
         readyToThrow = false;
+
+        // Select a random object from the array.
+        GameObject objectToThrow = objectsToThrow[UnityEngine.Random.Range(0, objectsToThrow.Length)];
+
         GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
-        
+
         Vector3 forceDirection = cam.transform.forward;
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, 500f))
         {
             forceDirection = (hit.point - attackPoint.position).normalized;
         }
-        Vector3 forceToAdd = forceDirection * throwFoece + transform.up * throwUpwardForce;
+        Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
         totalThrows--;
         Invoke(nameof(ResetThrow), throwCooldown);
@@ -60,6 +63,6 @@ public class ThrowingPlushies : MonoBehaviour
 
     private void ResetThrow()
     {
-        readyToThrow = true;   
+        readyToThrow = true;
     }
 }

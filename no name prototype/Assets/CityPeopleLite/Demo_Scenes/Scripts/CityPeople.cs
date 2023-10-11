@@ -2,39 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CityPeople
+
+
+
+public class CityPeople : MonoBehaviour
 {
-    public class CityPeople : MonoBehaviour
+    private Animator animator;
+    private bool isBonked = false;
+
+    private void Start()
     {
-        private AnimationClip[] myClips;
-        private Animator animator;
+        // Get the Animator component attached to the character.
+        animator = GetComponent<Animator>();
+    }
 
-        void Start()
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Check if the collided object has the tag "Plushie" and the character is not already dancing.
+        if (collision.gameObject.CompareTag("Plushie") /*&& !isBonked*/)
         {
-            animator = GetComponent<Animator>();
-            if (animator != null)
-            {
-                myClips = animator.runtimeAnimatorController.animationClips;
-                PlayAnyClip();
-                StartCoroutine(ShuffleClips());
-            }
-
+            // Start the dance animation.
+            StartDancing();
         }
+    }
 
-        void PlayAnyClip()
-        {
-            var cl = myClips[Random.Range(0, myClips.Length)];
-            animator.CrossFadeInFixedTime(cl.name, 1.0f, -1, Random.value * cl.length);
-        }
+    private void StartDancing()
+    {
+        // Set a trigger parameter in the animator to start the dance animation.
+        animator.SetTrigger("isBonked");
 
-        IEnumerator ShuffleClips()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(15.0f + Random.value * 5.0f);
-                PlayAnyClip();
-            }
-        }
-
+        // Set a flag to indicate that the character is now dancing.
+        isBonked = true;
     }
 }
+

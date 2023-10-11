@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6294006533937070309}
   m_Layer: 0
   m_Name: PIG
-  m_TagString: Untagged
+  m_TagString: Plushie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,7 +119,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268163357404018}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 909f40492f1fe7945be607c3f6427725, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

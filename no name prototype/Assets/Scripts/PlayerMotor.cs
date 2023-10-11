@@ -11,6 +11,10 @@ public class PlayerMotor : MonoBehaviour
     public float gravity = -9.8f;
     public float jumpHeight = 3f;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     void Start()
     {
         controller = GetComponent<CharacterController>();
