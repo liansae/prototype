@@ -24,6 +24,8 @@ public class ThrowingPlushies : MonoBehaviour
     public float throwUpwardForce;
 
     private bool readyToThrow;
+    
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,8 @@ public class ThrowingPlushies : MonoBehaviour
             ThrowRandomObject(); // Call a new function to throw a random object.
         }
     }
+
+    
 
     private void ThrowRandomObject()
     {
@@ -57,6 +61,9 @@ public class ThrowingPlushies : MonoBehaviour
         }
         Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
+
+       
+
         totalThrows--;
         Invoke(nameof(ResetThrow), throwCooldown);
     }

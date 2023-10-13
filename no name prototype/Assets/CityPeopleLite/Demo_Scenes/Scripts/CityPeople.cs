@@ -9,6 +9,8 @@ public class CityPeople : MonoBehaviour
 {
     private Animator animator;
     private bool isBonked = false;
+    private bool hasDanced = false;
+    public logic logicScript; 
 
     private void Start()
     {
@@ -21,13 +23,21 @@ public class CityPeople : MonoBehaviour
         // Check if the collided object has the tag "Plushie" and the character is not already dancing.
         if (collision.gameObject.CompareTag("Plushie") /*&& !isBonked*/)
         {
+            if(hasDanced == false)
+            {
+                logicScript.numberPeople++;
+            }
             // Start the dance animation.
             StartDancing();
+            
         }
+
+
     }
 
     private void StartDancing()
     {
+        hasDanced = true;
         // Set a trigger parameter in the animator to start the dance animation.
         animator.SetTrigger("isBonked");
 
